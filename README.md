@@ -3,11 +3,12 @@
 
 ## Episode dedicated to Keda
 <p align="center"><img src="/image/keda.png" width="40%" alt="keda" /></p>
-This repository contains the files utilized during the tutorial presented in the dedicated IsItObservable episode related to Keda
-What you will learn
-* How to deploy Keda
-* How to configure a ScaledOBject using the metric API scaler
-* How to observe Keda
+This repository contains the files utilized during the tutorial presented in the dedicated IsItObservable episode related to Keda.
+
+What you will learn :
+ * How to deploy Keda
+ * How to configure a ScaledObject using the metric API scaler
+ * How to observe Keda
 
 This repository showcase the usage of the Keda by using GKE with :
 * the HipsterShop
