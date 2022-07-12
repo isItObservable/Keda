@@ -1,0 +1,36 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: dynatrace-keda-auth
+spec:
+  secretTargetRef:
+    - parameter: apiKey
+      name: k6dynatrace
+      key: TOKEN
+
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: fontend-scaled
+  labels:
+    app: frontend
+spec:
+  minReplicaCount: 2
+  maxReplicaCount: 14
+  fallback:
+    failureThreshold: 3
+    replicas: 6
+  scaleTargetRef:
+    name: frontend
+  triggers:
+    - type: metrics-api
+      metadata:
+        targetValue: "300"
+        # TODO Replace <tenant-baseurl>
+        url: 'URL_TO_REPLACE/api/v2/metrics/query?metricSelector=nginx_ingress_controller_requests.count%3Afilter%28and%28eq%28service%2Cfrontend%29%29%29%3AsplitBy%28%29%3Asort%28value%28auto%2Cdescending%29%29%3Alimit%28100%29&from=-3m'
+        valueLocation: 'result.0.data.0.values.0'
+        authMode: apiKey
+        keyParamName: Authorization
+      authenticationRef:
+        name: dynatrace-keda-auth
